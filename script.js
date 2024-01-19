@@ -21,7 +21,7 @@ for (let i = 0; i < 11; i++) {
         y: canvas.height/2 + (Math.PI * 2) * (-30) * Math.sin(i * Math.PI / 5),
         radius: 25,
         scale: 1,
-        midi: "./MIDI_notes/" + i + ".wav",
+        midi: "./notes/" + i + ".wav",
         playable: true,
         lastPlayedTime: 0,
         color: colors[i],
