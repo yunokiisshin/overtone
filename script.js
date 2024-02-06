@@ -62,6 +62,22 @@ function drawCircles() {
     }
 }
 
+// Update ripple properties
+function updateRipple(circle) {
+    if (isSecondMode) {
+        circle.ripple.scale += 0.10 + circle.ind * 0.02;
+    } else {
+        circle.ripple.scale += 0.25;
+    }
+    circle.ripple.opacity -= 0.01;
+
+    if (circle.ripple.opacity <= 0) {
+        circle.ripple.active = false;
+        circle.ripple.scale = 0.75;
+        circle.ripple.opacity = 1;
+    }
+}
+
 // Function to play the assigned WAV file
 function playWav(circle) {
     if (!circle.playable) return;
@@ -73,4 +89,273 @@ function playWav(circle) {
     }
 }
 
-// The rest of your code for event listeners and animations remains the same
+function triggerSequentialRipples() {
+    let index = 0; // Initialize index to 0
+    function animateRipple() {
+        const circle = circles[index];
+        circle.scale = 1.1;
+        circle.ripple.active = true;
+        playWav(circle);
+        drawCircles();
+        const nextCircle = circles[index + 1];
+        if (nextCircle && circle.ripple.scale * circle.radius >= Math.sqrt(Math.pow(nextCircle.x - circle.x, 2) + Math.pow(nextCircle.y - circle.y, 2))) {
+            index++; // Increment index when ripple hits the next circle
+        }
+
+        if (index >= circles.length - 1) {
+            if (circles[circles.length - 1].playable) {
+                playWav(circles[circles.length - 1]);
+                circles[circles.length - 1].playable = false;
+                drawCircles();
+            }
+            index = 0;
+            return; // Stop animation if it's the last circle
+        }
+        requestAnimationFrame(animateRipple);
+    }
+    animateRipple();
+}
+
+function switchTextAndColor() {
+    var subtitle = document.getElementById("subtitle");
+    if (subtitle.innerHTML === "Find and press keys to play.") {
+        subtitle.innerHTML = "Press Space to play.";
+        isSecondMode = true;
+    } else {
+        subtitle.innerHTML = "Find and press keys to play.";
+        isSecondMode = false;
+    }
+    document.body.classList.toggle("second-mode");
+}
+
+// Event listener for keydown
+document.addEventListener('keydown', function(event) {
+    if (isSecondMode && event.key === ' ') {
+        triggerSequentialRipples();
+    } else if (!isSecondMode) {
+        if(event.key === 'a' || event.key === 'A') {
+            const circle = circles[0];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 's' || event.key === 'S') {
+            const circle = circles[1];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'd' || event.key === 'D') {
+            const circle = circles[2];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'f' || event.key === 'F') {
+            const circle = circles[3];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'g' || event.key === 'G') {
+            const circle = circles[4];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'h' || event.key === 'H') {
+            const circle = circles[5];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'j' || event.key === 'J') {
+            const circle = circles[6];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'k' || event.key === 'K') {
+            const circle = circles[7];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+            
+            playWav(circle);
+        }
+
+        if(event.key === 'l' || event.key === 'L') {
+            const circle = circles[8];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+
+            playWav(circle);
+        }
+
+        if(event.key === ';' || event.key === ':') {
+            const circle = circles[9];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+
+            playWav(circle);
+        }
+
+        if(event.key === "'" || event.key === '"') {
+            const circle = circles[10];
+            circle.scale = 1.1; // Increase circle size by 10%
+            
+            circle.ripple.active = true; // Activate ripple effect
+            drawCircles();
+
+            playWav(circle);
+        }
+
+    }
+    
+
+});
+
+// Event listener for keyup
+document.addEventListener('keyup', function(event) {
+    if(event.key === 'a' || event.key === 'A') {
+        const circle = circles[0];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 's' || event.key === 'S') {
+        const circle = circles[1];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'd' || event.key === 'D') {
+        const circle = circles[2];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'f' || event.key === 'F') {
+        const circle = circles[3];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'g' || event.key === 'G') {
+        const circle = circles[4];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'h' || event.key === 'H') {
+        const circle = circles[5];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'j' || event.key === 'J') {
+        const circle = circles[6];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'k' || event.key === 'K') {
+        const circle = circles[7];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === 'l' || event.key === 'L') {
+        const circle = circles[8];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === ';' || event.key === ':') {
+        const circle = circles[9];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+
+    if(event.key === "'" || event.key === '"') {
+        const circle = circles[10];
+        circle.scale = 1; // Reset circle size
+        drawCircles();
+        circle.playable = true;
+    }
+});
+
+window.addEventListener('resize', function() {
+    const oldWidth = canvas.width;
+    const oldHeight = canvas.height;
+
+    // Update canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Update circle positions and sizes without affecting ripple states
+    for (let i = 0; i < circles.length; i++) {
+        const circle = circles[i];
+        // Scale the position and radius relative to the new canvas size
+        circle.x = circle.x * (canvas.width / oldWidth);
+        circle.y = circle.y * (canvas.height / oldHeight);
+        circle.radius = circle.radius * (canvas.width / oldWidth);
+        // Do not reset ripple properties here
+    }
+
+    // Redraw circles
+    drawCircles();
+});
+
+
+
+function animate() {
+    requestAnimationFrame(animate);
+    drawCircles();
+}
+
+updateCirclesWhenWindowChangesSize();
+animate();
